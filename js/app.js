@@ -40,12 +40,21 @@ function shuffle(array) {
 
 // select all 'elements' with "class" card
 let allCards = document.querySelectorAll('.card')
+let openCards = []; // empty array
+
 
 // add 'event listener' to all of them elements
 allCards.forEach( function(card) {
     card.addEventListener('click', function(event) {
-        console.log(event)
-        // 'open' will just show the color, 'show' will show the picture
-        card.classList.add('open', 'show')
+        
+        if (openCards.length >= 2) {
+            // don't open anymore cards
+        } else {
+            // push 'card' into array, then open the card
+            openCards.push(card)
+            // 'open' will just show the color, 'show' will show the picture
+            card.classList.add('open', 'show')
+        }
+        
     })
-})
+}) // allCards.forEach
