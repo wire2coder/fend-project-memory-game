@@ -1,8 +1,8 @@
 /*
  * Create a list that holds all of your cards
  */
-
-
+ 
+ 
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -26,35 +26,86 @@ function shuffle(array) {
 }
 
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+
+// 8 icons, 2 pairs, 16 cards total, these are just strings for 'class name'
+ var cards = [
+    'fa-diamond', 'fa-diamond',
+    'fa-paper-plane-o', 'fa-paper-plane-o',
+    'fa-anchor', 'fa-anchor',
+    'fa-bolt', 'fa-bolt',
+    'fa-cube', 'fa-cube',
+    'fa-leaf', 'fa-leaf',
+    'fa-bicycle', 'fa-bicycle',
+    'fa-bomb', 'fa-bomb'
+    ];
 
 
-// select all 'elements' with "class" card
-let allCards = document.querySelectorAll('.card')
-let openCards = []; // empty array
+function generateCard(card1) {
+    // <li class="card fa fa-bolt" data-card="fa-bolt"></li>
+    return `<li class="card fa ${card1}" data-card="${card1}"></li>`;
+}
 
 
-// add 'event listener' to all of them elements
-allCards.forEach( function(card) {
-    card.addEventListener('click', function(event) {
+function makeDeck() {
+
+    cards = shuffle(cards);
+    
+    let cardHTML = cards.map(function(asdf) {
+        return generateCard(asdf);  // you NEED the return statement with .map()
+    });
+    
+    // 'querySelector the <ul>'
+    let ul1 = document.querySelector('.deck');
+     
+    // The array.join() method is an inbuilt function in JavaScript which is used to join the elements of an array into a string.The elements of the string will be separated by a specified separator and its default value is comma(, ) 
+    // adding output to the index.html
+    ul1.innerHTML = cardHTML.join(' ')
+    
+}
+
+
+let openCards = [];
+makeDeck();
+
+// select all 'elements' with 'class name' card
+let allCards = document.querySelectorAll('.card');
+
+// add 'event listener' to EACH card with a 'forEach' meth
+allCards.forEach(function(card) {
+    
+    card.addEventListener('click', function() {
         
-        if (openCards.length >= 2) {
-            // don't open anymore cards
+        let currentCard = this;
+        let previousCard = openCards[0];
+        
+        
+        if ( openCards.length === 1 ) { // loop 1
+            card.classList.add('open', 'show'); // adding 'css class'
+            openCards.push(this); // 'this' >> card1
+            
+            if ( previousCard.dataset.card == currentCard.dataset.card ) { // loop 2
+                // console.log(`if: ${this.dataset.card}`)
+            
+                // add css matching class
+                previousCard.classList.add('match')        
+                currentCard.classList.add('match')        
+                
+                openCards = []; // exit out of loop 1
+            } else {
+                previousCard.classList.remove('open', 'show')
+                currentCard.classList.remove('open', 'show')
+                
+                openCards = []; // exit out of loop 1
+            }
+            
         } else {
-            // push 'card' into array, then open the card
-            openCards.push(card)
-            // 'open' will just show the color, 'show' will show the picture
-            card.classList.add('open', 'show')
+            currentCard.classList.add('open', 'show'); // adding 'css class'
+            openCards.push(this);
         }
         
+        
+        
     })
-}) // allCards.forEach
+  
+    
+});
