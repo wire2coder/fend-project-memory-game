@@ -14,9 +14,30 @@ let seconds1 = 0;
 let timerDiv = document.querySelector('.timer')
 timerDiv.innerHTML = seconds1 + ' second';
 
+// 'modal/popup' variables
+let modal1 = document.querySelector('#modal')
+let button1 = document.querySelector('#button1')
+let close2 = document.querySelector('.close2')
+let winningText = document.querySelector('.winningText')
+let numberOfStars = 0;
+
  
 // 8 icons, 2 pairs, 16 cards total, these are just strings for 'class name'
-let cards = [
+let cards1 = [
+    'fa-diamond',
+    'fa-paper-plane-o',
+    'fa-anchor',
+    'fa-bolt',
+    'fa-cube',
+    'fa-leaf',
+    'fa-bicycle', 
+    'fa-bomb'
+    ];     
+ 
+let cards = cards1.concat(cards1)
+
+/**
+ * cards is let cards = [
     'fa-diamond', 'fa-diamond',
     'fa-paper-plane-o', 'fa-paper-plane-o',
     'fa-anchor', 'fa-anchor',
@@ -25,7 +46,8 @@ let cards = [
     'fa-leaf', 'fa-leaf',
     'fa-bicycle', 'fa-bicycle',
     'fa-bomb', 'fa-bomb'
-    ]; 
+]; 
+*/
  
 /*
  * Display the cards on the page
@@ -60,7 +82,25 @@ function generateCard(card1) {
 function isGameOver() {
     if ( matchedCardsArray.length === 16 ) {
         stopTimer(timerFunction)
-        alert(`Game Over`)
+        
+        // When the user clicks on <span> (x), close the modal
+        close2.onclick = function() {
+            modal1.style.display = 'none';
+        }
+
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal1) {
+                modal1.style.display = 'none';
+            }
+        }
+        
+        modal1.style.display = 'block'
+        document.querySelector('.winningText').innerHTML = 
+            `<p>Congratulation, You won! </p>
+            <p>${seconds1} seconds</p>
+            <p>${numberOfStars} stars</p>`
     }
 }
 
@@ -89,53 +129,20 @@ function stopTimer(input1) {
 
 function rateMoves() {
     
-    switch (moveCounter) {
-        case 10:
-                document.querySelector('.stars').innerHTML = 
-                `<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>`    
-            break;
-            
-        case 12:
-                 document.querySelector('.stars').innerHTML = 
-                `<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>`    
-            break;
-        
-        case 14:
-                 document.querySelector('.stars').innerHTML = 
-                `<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>`    
-            break;
-            
-        case 16:
-                 document.querySelector('.stars').innerHTML = 
-                `<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>`    
-            break;
-            
-        case 18:
-                 document.querySelector('.stars').innerHTML = 
-                `<li><i class="fa fa-star"></i></li>`    
-            break;
-        
-        case 20:
-                 document.querySelector('.stars').innerHTML = 
-                `<span>You suck!</span>`    
-            break;
-            
-        default:
-                document.querySelector('.stars').innerHTML = 
-                `<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>`    
+    let star1 = `<li><i class="fa fa-star"></i></li>`
+    let starsDiv = document.querySelector('.stars')
+    
+    if (moveCounter > 8 && moveCounter < 10) {
+        starsDiv.innerHTML = star1 + star1 + star1 + star1 + star1
+        numberOfStars = 5;
+    } else if (moveCounter > 10 && moveCounter < 13) {
+        starsDiv.innerHTML = star1 + star1 + star1 + star1
+        numberOfStars = 4;
+    } else if (moveCounter > 13) {
+        starsDiv.innerHTML = star1 + star1
+        numberOfStars = 2;
     }
+    
     
 }
 
@@ -152,6 +159,7 @@ function addClickEventRestartGame() {
         matchedCardsArray = [];         // empty 'matching card' arrays
         moveCounter = 0;
         stopTimer(timerFunction);
+        seconds1 = 0;
         document.querySelector('.timer').innerHTML = 0 + ' seconds';
         firstClick = true;
         
@@ -162,6 +170,7 @@ function addClickEventRestartGame() {
         		<li><i class="fa fa-star"></i></li>`    
     })    
 }
+
 
 
 function addClickEventToCards() {
@@ -231,6 +240,8 @@ function addClickEventToCards() {
 function makeDeck() {
     
     document.querySelector('.moves').innerHTML = 0;
+    numberOfStars = 3;
+    
     cards = shuffle(cards);
     
     cardHTML = cards.map(function(asdf) {
@@ -264,6 +275,7 @@ function makeDeck() {
 **/
 
 makeDeck();
+
 
 
 
