@@ -152,6 +152,7 @@ function addClickEventRestartGame() {
         matchedCardsArray = [];         // empty 'matching card' arrays
         moveCounter = 0;
         stopTimer(timerFunction);
+        document.querySelector('.timer').innerHTML = 0 + ' seconds';
         firstClick = true;
         
         // reset to '3 stars'
