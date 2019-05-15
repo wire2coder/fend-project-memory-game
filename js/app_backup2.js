@@ -41,4 +41,13 @@ allCards.forEach( function(card) {
 // https://youtu.be/G8J13lmApkQ?t=911
 
 // TODO 5/13
-https://youtu.be/G8J13lmApkQ?t=1935
+// https://youtu.be/G8J13lmApkQ?t=1935
+
+// TODO 5/14
+// https://youtu.be/G8J13lmApkQ?t=3548
+
+// adding 'move counter'
+// https://youtu.be/G8J13lmApkQ?t=3564
+
+// add a 'rating system'
+// https://youtu.be/G8J13lmApkQ?t=4481
