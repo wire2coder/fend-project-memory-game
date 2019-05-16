@@ -4,7 +4,7 @@
 
 * [Instructions](#instructions)
 * [Contributing](#contributing)
-* [How to Play](#how to play)
+* [How_to_Play](#how_to_play)
 * [Dependencies](#dependencies)
 
 ## Instructions
@@ -26,4 +26,5 @@ The board have total of 16 cards that are shuffled/not in order. The player need
 
 ## Dependencies
 Google Font Coda https://fonts.googleapis.com/css?family=Coda
+
 Font Awesome https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css
