@@ -7,17 +7,19 @@ let openCards = [];
 let matchedCardsArray = [];  
 let moveCounter = 0;
 let cardHTML;
-let cardsContainer;
 let firstClick = true;
 let timerFunction;
 let seconds1 = 0;
 let timerDiv = document.querySelector('.timer')
 timerDiv.innerHTML = seconds1 + ' second';
+let restartButton = document.querySelector('.restart');
+let cardsContainer = document.querySelector('.deck');
 
 // 'modal/popup' variables
 let modal1 = document.querySelector('#modal')
 let button1 = document.querySelector('#button1')
 let close2 = document.querySelector('.close2')
+let playagain1 = document.querySelector('.playagain1')
 let winningText = document.querySelector('.winningText')
 let numberOfStars = 0;
 
@@ -80,7 +82,7 @@ function generateCard(card1) {
 
 
 function isGameOver() {
-    if ( matchedCardsArray.length === 16 ) {
+    if ( matchedCardsArray.length === 16 ) { // matchedArray needs to be atleast 2 cards
         stopTimer(timerFunction)
         
         // When the user clicks on <span> (x), close the modal
@@ -94,6 +96,13 @@ function isGameOver() {
             if (event.target == modal1) {
                 modal1.style.display = 'none';
             }
+        }
+        
+    
+        // Play again button, restart the game
+        playagain1.onclick = function(event) {
+            modal1.style.display = 'none';
+            resetGame()
         }
         
         modal1.style.display = 'block'
@@ -132,31 +141,23 @@ function rateMoves() {
     let star1 = `<li><i class="fa fa-star"></i></li>`
     let starsDiv = document.querySelector('.stars')
     
-    if (moveCounter > 8 && moveCounter < 10) {
-        starsDiv.innerHTML = star1 + star1 + star1 + star1 + star1
-        numberOfStars = 5;
-    } else if (moveCounter > 10 && moveCounter < 13) {
-        starsDiv.innerHTML = star1 + star1 + star1 + star1
-        numberOfStars = 4;
-    } else if (moveCounter > 13) {
+    if (moveCounter > 10 && moveCounter < 13) {
         starsDiv.innerHTML = star1 + star1
         numberOfStars = 2;
+    } else if (moveCounter > 13) {
+        starsDiv.innerHTML = star1
+        numberOfStars = 1;
     }
     
     
 }
 
 
-// restart game
-function addClickEventRestartGame() {
-    cardsContainer = document.querySelector('.deck');
-    
-    let restartButton = document.querySelector('.restart');
-    restartButton.addEventListener('click', function() {
-        
-        cardsContainer.innerHTML = '';  // 'clear the deck'
+function resetGame() {
+     cardsContainer.innerHTML = '';  // 'clear the deck'
         makeDeck()                      // make the deck again
-        matchedCardsArray = [];         // empty 'matching card' arrays
+        openCards = [];                 // empty the 'openCards' array
+        matchedCardsArray = [];         // empty 'matching card' array
         moveCounter = 0;
         stopTimer(timerFunction);
         seconds1 = 0;
@@ -167,10 +168,16 @@ function addClickEventRestartGame() {
         document.querySelector('.stars').innerHTML = 
                 `<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>`    
-    })    
+        		<li><i class="fa fa-star"></i></li>` 
 }
 
+
+function addClickEventRestartGame() {
+    
+    restartButton.addEventListener('click', function() {
+       resetGame();   
+    })    
+}
 
 
 function addClickEventToCards() {
